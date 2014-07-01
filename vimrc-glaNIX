@@ -1,0 +1,41 @@
+syntax on
+set background=dark
+set mouse=a
+set number
+set cindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+colorscheme torte
+
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+" Bind <F5> to insert date
+nnoremap <F5> "=strftime("%D")<CR>
+inoremap <F5> <C-R>=strftime("%D")<CR>
+
+"vim-latexsuite options
+syntax on
+filetype plugin on
+filetype indent on
+autocmd FileType tex :setlocal ts=2 sw=2 spell
+autocmd FileType latex :setlocal ts=2 sw=2 spell
+set iskeyword+=:
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex" "use latex instead of tex
+let g:Tex_CompileRule_dvi = 'latex --interaction=nonstopmode $*' "Compile dvi's this way
+let g:Tex_CompileRule_pdf = 'dvipdf $*.dvi ' "Compile pdfs this way
+let g:Tex_FormatDependency_pdf = 'dvi,pdf' "Compile the docs in this order
+let g:Tex_DefaultTargetFormat = 'pdf' "set vim-latexsuite into pdf mode
+let g:Tex_ViewRuleComplete_pdf = 'nohup evince $*.pdf &> /dev/null &' "use evince as the viewer
+
